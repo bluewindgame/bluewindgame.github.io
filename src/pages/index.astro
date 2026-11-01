@@ -1,0 +1,427 @@
+---
+const email = "feedback@yourgame.com";
+const discordInvite = "https://discord.gg/your-invite";
+const qqGroup = "123456789";
+---
+
+<meta charset="utf-8" />
+
+<div class="page">
+  <main class="wrap">
+    <header class="hero">
+      <div class="badge">COMMUNITY & FEEDBACK</div>
+      <h1 data-i18n="title">联系我们</h1>
+      <p data-i18n="desc">加入社区，或通过下方渠道告诉我们你的想法。</p>
+    </header>
+
+    <!-- 社区 -->
+    <section class="block">
+      <div class="block-head">
+        <h2 data-i18n="communityTitle">社区</h2>
+        <p data-i18n="communityDesc">和其他玩家交流，获取最新动态。</p>
+      </div>
+      <div class="channels">
+        <a class="channel" href={discordInvite} target="_blank" rel="noopener">
+          <span class="ch-icon discord">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 4.6A19 19 0 0 0 15.6 3l-.2.5c1.7.4 3.2 1 4.6 1.8a15 15 0 0 0-14 0c1.4-.8 2.9-1.4 4.6-1.8L10.4 3a19 19 0 0 0-4.7 1.6C2.7 9 2 13.3 2.3 17.5a19 19 0 0 0 5.8 3l.7-1.2c-.6-.2-1.3-.5-1.9-.9l.4-.3a13.5 13.5 0 0 0 11.4 0l.4.3c-.6.4-1.3.7-1.9.9l.7 1.2a19 19 0 0 0 5.8-3c.4-4.8-.6-9-1.9-12.9ZM9 15c-.9 0-1.6-.8-1.6-1.8S8.1 11.4 9 11.4s1.6.8 1.6 1.8S9.9 15 9 15Zm6 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8S15.9 15 15 15Z"/></svg>
+          </span>
+          <span class="ch-body">
+            <span class="ch-name">Discord</span>
+            <span class="ch-meta" data-i18n="discordMeta">加入服务器</span>
+          </span>
+          <span class="ch-arrow">→</span>
+        </a>
+        <div class="channel">
+          <span class="ch-icon qq">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9 9 0 0 1-3.6-.7L4 20l1-3.6a8 8 0 0 1-1.5-4.9A8.4 8.4 0 0 1 12 3.2a8.4 8.4 0 0 1 9 8.3Z"/><path d="M9 10h.01M15 10h.01"/></svg>
+          </span>
+          <span class="ch-body">
+            <span class="ch-name" data-i18n="qqName">QQ 群</span>
+            <span class="ch-meta" id="qq-value">{qqGroup}</span>
+          </span>
+          <button class="btn-mini" data-copy="qq" data-i18n="copy">复制</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUG 反馈 -->
+    <section class="block">
+      <div class="block-head">
+        <h2 data-i18n="bugTitle">BUG 反馈</h2>
+        <p data-i18n="bugDesc">遇到崩溃、卡关或功能异常？按以下步骤反馈能帮我们更快定位。</p>
+      </div>
+      <ol class="steps">
+        <li data-i18n="bugStep1">记录 BUG 发生时的游戏版本号（标题界面或设置中可查看）</li>
+        <li data-i18n="bugStep2">写下问题发生前的操作步骤，越具体越好</li>
+        <li data-i18n="bugStep3">附上日志文件或截图（如有）</li>
+        <li data-i18n="bugStep4">发送到下方邮箱，标题注明 [BUG] + 版本号</li>
+      </ol>
+      <div class="email-box">
+        <code id="email-value">{email}</code>
+        <button class="btn-mini" data-copy="email" data-i18n="copy">复制</button>
+      </div>
+    </section>
+
+    <!-- 意见反馈 -->
+    <section class="block">
+      <div class="block-head">
+        <h2 data-i18n="ideaTitle">意见反馈</h2>
+        <p data-i18n="ideaDesc">花一分钟回答几个问题，帮我们把游戏做得更好。</p>
+      </div>
+      <div id="survey-fields" class="survey"></div>
+      <div class="survey-actions">
+        <button type="button" id="copy-feedback" class="btn-primary" data-i18n="copyFeedback">复制反馈内容</button>
+        <button type="button" id="mail-feedback" class="btn-ghost" data-i18n="mailFeedback">通过邮件发送</button>
+      </div>
+      <p class="hint" data-i18n="ideaHint">复制后可以粘贴到任意邮件客户端，发送给上方邮箱。</p>
+    </section>
+  </main>
+</div>
+
+<script define:vars={{ email, discordInvite, qqGroup }}>
+  // ===== 翻译（界面框架） =====
+  const translations = {
+    zh: {
+      title: "联系我们", desc: "加入社区，或通过下方渠道告诉我们你的想法。",
+      communityTitle: "社区", communityDesc: "和其他玩家交流，获取最新动态。",
+      discordMeta: "加入服务器", qqName: "QQ 群",
+      bugTitle: "BUG 反馈", bugDesc: "遇到崩溃、卡关或功能异常？按以下步骤反馈能帮我们更快定位。",
+      bugStep1: "记录 BUG 发生时的游戏版本号（标题界面或设置中可查看）",
+      bugStep2: "写下问题发生前的操作步骤，越具体越好",
+      bugStep3: "附上日志文件或截图（如有）",
+      bugStep4: "发送到下方邮箱，标题注明 [BUG] + 版本号",
+      ideaTitle: "意见反馈", ideaDesc: "花一分钟回答几个问题，帮我们把游戏做得更好。",
+      ideaHint: "复制后可以粘贴到任意邮件客户端，发送给上方邮箱。",
+      copy: "复制", copied: "已复制", copyFeedback: "复制反馈内容", mailFeedback: "通过邮件发送",
+    },
+    en: {
+      title: "Get in touch", desc: "Join the community, or reach us through the channels below.",
+      communityTitle: "Community", communityDesc: "Chat with other players and stay up to date.",
+      discordMeta: "Join the server", qqName: "QQ group",
+      bugTitle: "Bug reports", bugDesc: "Crashes, blockers, or broken features? Follow these steps so we can locate the issue faster.",
+      bugStep1: "Note the game version where the bug occurred (visible on the title screen or in settings)",
+      bugStep2: "Write down the steps that led to the issue, as specifically as possible",
+      bugStep3: "Attach a log file or screenshot if possible",
+      bugStep4: "Email the address below with [BUG] + version in the subject",
+      ideaTitle: "Feedback", ideaDesc: "Take a minute to answer a few questions and help us improve the game.",
+      ideaHint: "Copy the result and paste it into any email client, then send it to the address above.",
+      copy: "Copy", copied: "Copied", copyFeedback: "Copy feedback", mailFeedback: "Send by email",
+    }
+  };
+
+  const lang = (navigator.language || "en").split("-")[0];
+  const t = translations[lang] || translations.en;
+
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.getAttribute("data-i18n");
+    if (t[key]) el.textContent = t[key];
+  });
+
+  // ===== 问卷配置 =====
+  const commonHead = [
+    { key: "playtime", type: "text", label: "游玩时长", en: "Playtime", placeholder: "例如：3 小时", placeholderEn: "e.g. 3 hours" },
+    { key: "recommend", type: "radio", label: "整体推荐意愿", en: "Would you recommend it?", options: ["会推荐", "不确定", "不会推荐"], enOptions: ["Yes", "Not sure", "No"] },
+  ];
+  const commonBody = [
+    { key: "bestPart", type: "textarea", label: "你体验到的最好是哪个部分", en: "What was the best part of your experience?", placeholder: "比如：氛围、关卡、美术、音效等，说说最打动你的部分", placeholderEn: "e.g. atmosphere, level design, art, audio — what stood out to you?" },
+    { key: "worstPart", type: "textarea", label: "最影响体验的问题", en: "What hurt your experience the most?", placeholder: "比如：BUG、难度、引导、性能等", placeholderEn: "e.g. bugs, difficulty, guidance, performance" },
+  ];
+  const commonTail = [
+    { key: "improve", type: "textarea", label: "最希望改进的地方", en: "What would you most like to see improved?", placeholder: "例如：地图系统、战斗手感、关卡设计等", placeholderEn: "e.g. map system, combat feel, level design" },
+    { key: "extra", type: "textarea", label: "其他体验与建议", en: "Other thoughts or suggestions", placeholder: "以上问题没有覆盖到的体验或建议，欢迎写在下面", placeholderEn: "Anything not covered above? Share it below." },
+  ];
+
+  // ===== 游戏配置 =====
+  const gameConfig = {
+    "animal-well-like": {
+      name: "类动物井项目",
+      enName: "Animal-Well-like Project",
+      specific: [
+        { key: "navigation", type: "radio",
+          label: "导航与引导：你会在多大程度上因为“不知道该去哪”而卡住或感到挫败？",
+          en: "Navigation: how often did you get stuck or frustrated because you didn't know where to go?",
+          options: ["几乎不会", "偶尔", "经常", "频繁到影响继续游玩"],
+          enOptions: ["Almost never", "Occasionally", "Often", "Frequently enough to stop playing"] },
+        { key: "difficulty", type: "radio",
+          label: "难度与存档节奏：难度曲线和存档点的分布感觉如何？",
+          en: "Difficulty & save pacing: how did the difficulty curve and save point distribution feel?",
+          options: ["偏轻松", "适中", "有挑战但可接受", "某些段落过于挫败"],
+          enOptions: ["Too easy", "About right", "Challenging but fair", "Some sections were too frustrating"] },
+      ],
+    },
+  };
+
+  const gameId = new URLSearchParams(location.search).get("game") || "animal-well-like";
+  const game = gameConfig[gameId] || Object.values(gameConfig)[0];
+  const questions = [...commonHead, ...game.specific, ...commonBody, ...commonTail];
+
+  const isZh = lang === "zh";
+  const qLabel = (q) => (isZh ? q.label : q.en || q.label);
+  const qPlaceholder = (q) => (isZh ? q.placeholder : q.placeholderEn || q.placeholder || "");
+  const qOptions = (q) => (isZh ? q.options : q.enOptions || q.options);
+
+  // ===== 渲染问卷 =====
+  const fields = document.getElementById("survey-fields");
+  questions.forEach((q, i) => {
+    const wrap = document.createElement("div");
+    wrap.className = "q";
+
+    // 统一把 label 放在最上面
+    const label = document.createElement(q.type === "radio" ? "span" : "label");
+    label.className = "q-label";
+    label.textContent = `${i + 1}. ${qLabel(q)}`;
+    wrap.appendChild(label);
+
+    if (q.type === "text" || q.type === "textarea") {
+      const input = document.createElement(q.type === "text" ? "input" : "textarea");
+      input.name = q.key;
+      input.id = `q-${q.key}`;
+      if (q.type === "text") input.type = "text";
+      if (q.type === "textarea") {
+        input.rows = 3; // 适当增加行高
+      }
+      input.placeholder = qPlaceholder(q);
+      if (q.type !== "radio") label.setAttribute("for", `q-${q.key}`);
+      wrap.appendChild(input);
+    } else if (q.type === "radio") {
+      const opts = document.createElement("div");
+      opts.className = "options";
+      qOptions(q).forEach((opt) => {
+        const l = document.createElement("label");
+        const r = document.createElement("input");
+        r.type = "radio";
+        r.name = q.key;
+        r.value = opt;
+        const s = document.createElement("span");
+        s.textContent = opt;
+        l.appendChild(r);
+        l.appendChild(s);
+        opts.appendChild(l);
+      });
+      wrap.appendChild(opts);
+    }
+    fields.appendChild(wrap);
+  });
+
+  // ===== 复制 =====
+  const copyTargets = {
+    qq: document.getElementById("qq-value"),
+    email: document.getElementById("email-value"),
+  };
+  document.querySelectorAll("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const el = copyTargets[btn.dataset.copy];
+      if (!el) return;
+      try {
+        await navigator.clipboard.writeText(el.textContent.trim());
+        const orig = btn.textContent;
+        btn.textContent = t.copied;
+        btn.classList.add("is-done");
+        setTimeout(() => { btn.textContent = orig; btn.classList.remove("is-done"); }, 1500);
+      } catch { btn.textContent = "Ctrl+C"; }
+    });
+  });
+
+  // ===== 生成反馈文本 =====
+  const buildFeedback = () => {
+    const rows = questions.map((q) => {
+      let ans = "-";
+      if (q.type === "radio") {
+        const el = document.querySelector(`input[name="${q.key}"]:checked`);
+        if (el) ans = el.value;
+      } else {
+        const el = document.querySelector(`[name="${q.key}"]`);
+        if (el && el.value.trim()) ans = el.value.trim();
+      }
+      return `${qLabel(q)}\n${ans}`;
+    });
+    const title = isZh ? `【${game.name} 意见反馈】` : `[${game.enName || game.name} Feedback]`;
+    return `${title}\n\n` + rows.join("\n\n");
+  };
+
+  document.getElementById("copy-feedback").addEventListener("click", async (e) => {
+    const btn = e.currentTarget;
+    try {
+      await navigator.clipboard.writeText(buildFeedback());
+      const orig = btn.textContent;
+      btn.textContent = t.copied;
+      setTimeout(() => (btn.textContent = orig), 1500);
+    } catch { btn.textContent = "Ctrl+C"; }
+  });
+
+  document.getElementById("mail-feedback").addEventListener("click", () => {
+    const subject = encodeURIComponent(isZh ? `[意见反馈] ${game.name}` : `[Feedback] ${game.enName || game.name}`);
+    const body = encodeURIComponent(buildFeedback());
+    window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
+  });
+</script>
+
+<!-- 注意这里改成了 is:global，让动态生成的 DOM 也能应用样式 -->
+<style is:global>
+  body {
+    margin: 0;
+    background-color: #0f172a;
+    background-image: url("https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  .page {
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC",
+      "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+    padding: 48px 20px 80px;
+    box-sizing: border-box;
+    background: rgba(15, 23, 42, 0.5);
+    color: #0f172a;
+  }
+
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Hero */
+  .hero { padding: 8px 4px 4px; }
+  .badge {
+    display: inline-block;
+    font-size: 11px; letter-spacing: 0.16em; font-weight: 700;
+    color: #c7d2fe; background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 5px 11px; border-radius: 6px; margin-bottom: 14px;
+    backdrop-filter: blur(8px);
+  }
+  .hero h1 {
+    font-size: 30px; font-weight: 700; margin: 0 0 8px;
+    letter-spacing: -0.02em; color: #ffffff;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  }
+  .hero p {
+    color: rgba(255, 255, 255, 0.75); margin: 0;
+    font-size: 15px; line-height: 1.6;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 卡片 */
+  .block {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(224, 231, 255, 0.95) 0%, transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(250, 232, 255, 0.95) 0%, transparent 55%),
+      rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    padding: 24px 26px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 24px 70px -24px rgba(0, 0, 0, 0.5);
+  }
+  .block-head { margin-bottom: 18px; }
+  .block-head h2 { font-size: 17px; font-weight: 700; margin: 0 0 6px; }
+  .block-head p { margin: 0; font-size: 13px; color: #64748b; line-height: 1.55; }
+
+  /* Channels */
+  .channels { display: flex; flex-direction: column; gap: 10px; }
+  .channel {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px; border: 1px solid #e6e8ef;
+    border-radius: 12px; background: rgba(250, 251, 253, 0.8);
+    text-decoration: none; color: inherit;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .channel:hover { border-color: #c7d2fe; background: rgba(245, 247, 255, 0.95); }
+  .ch-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 10px; flex-shrink: 0; }
+  .ch-icon svg { width: 22px; height: 22px; }
+  .ch-icon.discord { background: #eef2ff; color: #5865f2; }
+  .ch-icon.qq { background: #e0f2fe; color: #0284c7; }
+  .ch-body { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .ch-name { font-size: 14px; font-weight: 600; }
+  .ch-meta { font-size: 13px; color: #64748b; font-family: ui-monospace, "SFMono-Regular", "Menlo", monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ch-arrow { color: #94a3b8; font-size: 18px; padding: 0 4px; }
+
+  /* Steps */
+  .steps { list-style: none; counter-reset: step; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .steps li { counter-increment: step; display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; color: #334155; line-height: 1.55; }
+  .steps li::before {
+    content: counter(step); flex-shrink: 0; width: 22px; height: 22px;
+    display: grid; place-items: center;
+    background: #eef2ff; color: #6366f1; border-radius: 6px;
+    font-size: 12px; font-weight: 700; margin-top: 1px;
+  }
+
+  .email-box { display: flex; align-items: stretch; gap: 8px; padding: 8px; background: rgba(248, 250, 252, 0.85); border: 1px solid #e6e8ef; border-radius: 10px; }
+  .email-box code { flex: 1; display: flex; align-items: center; padding: 0 8px; font-family: ui-monospace, "SFMono-Regular", "Menlo", monospace; font-size: 13.5px; font-weight: 600; color: #4338ca; word-break: break-all; user-select: all; }
+
+  /* 按钮 */
+  .btn-mini {
+    flex-shrink: 0; padding: 7px 14px; border-radius: 8px;
+    font-size: 12.5px; font-weight: 600; cursor: pointer;
+    border: 1px solid #e2e8f0; background: #fff; color: #475569;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-mini:hover { background: #eef2ff; border-color: #c7d2fe; color: #4338ca; }
+  .btn-mini.is-done { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+
+  .btn-primary, .btn-ghost {
+    padding: 11px 20px; border-radius: 10px;
+    font-size: 13.5px; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; border: 1px solid transparent;
+  }
+  .btn-primary { background: #4f46e5; color: #fff; }
+  .btn-primary:hover { background: #4338ca; }
+  .btn-ghost { background: #fff; color: #475569; border-color: #e2e8f0; }
+  .btn-ghost:hover { background: #f1f5f9; }
+
+  /* 问卷样式 */
+  .survey { display: flex; flex-direction: column; gap: 20px; }
+  .q { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .q-label { font-size: 13.5px; font-weight: 600; color: #334155; line-height: 1.5; display: block; }
+  
+  /* 彻底修改输入框布局与外观 */
+  input[type="text"], textarea {
+    width: 100%; box-sizing: border-box;
+    padding: 11px 13px; border-radius: 10px;
+    border: 1px solid #e2e8f0; background: #fff;
+    font-family: inherit; font-size: 13.5px; color: #0f172a;
+    line-height: 1.55; transition: border-color 0.15s, box-shadow 0.15s;
+    display: block; /* 强制独占一行 */
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  input[type="text"]:focus, textarea:focus {
+    outline: none; border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+
+  /* 美化单选按钮 */
+  .options { display: flex; flex-wrap: wrap; gap: 8px; }
+  .options label {
+    display: inline-flex; align-items: center; position: relative;
+    padding: 8px 16px; border-radius: 999px;
+    border: 1px solid #e2e8f0; background: #fff;
+    cursor: pointer; font-size: 13px; color: #475569;
+    transition: all 0.15s ease; user-select: none;
+  }
+  .options input { position: absolute; opacity: 0; pointer-events: none; }
+  .options label:hover { border-color: #c7d2fe; }
+  .options label:has(input:checked) {
+    background: #eef2ff; border-color: #6366f1; color: #4338ca;
+    font-weight: 600; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+
+  .survey-actions { display: flex; gap: 10px; margin-top: 24px; padding-top: 20px; border-top: 1px dashed #e6e8ef; }
+  .hint { margin: 12px 0 0; font-size: 12px; color: #94a3b8; line-height: 1.55; }
+
+  @media (max-width: 520px) {
+    .page { padding: 28px 14px 60px; }
+    .hero h1 { font-size: 24px; }
+    .block { padding: 20px 18px; }
+    .email-box { flex-direction: column; }
+    .email-box code { padding: 6px 4px; }
+    .survey-actions { flex-direction: column; }
+    .survey-actions button { width: 100%; }
+  }
+</style>
