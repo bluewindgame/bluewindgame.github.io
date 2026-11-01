@@ -79,7 +79,7 @@ const qqGroup = "123456789";
 </div>
 
 <script define:vars={{ email, discordInvite, qqGroup }}>
-  // ===== 翻译（界面框架） =====
+  // ===== 翻译 =====
   const translations = {
     zh: {
       title: "联系我们", desc: "加入社区，或通过下方渠道告诉我们你的想法。",
@@ -166,7 +166,6 @@ const qqGroup = "123456789";
     const wrap = document.createElement("div");
     wrap.className = "q";
 
-    // 统一把 label 放在最上面
     const label = document.createElement(q.type === "radio" ? "span" : "label");
     label.className = "q-label";
     label.textContent = `${i + 1}. ${qLabel(q)}`;
@@ -177,9 +176,7 @@ const qqGroup = "123456789";
       input.name = q.key;
       input.id = `q-${q.key}`;
       if (q.type === "text") input.type = "text";
-      if (q.type === "textarea") {
-        input.rows = 3; // 适当增加行高
-      }
+      if (q.type === "textarea") input.rows = 3;
       input.placeholder = qPlaceholder(q);
       if (q.type !== "radio") label.setAttribute("for", `q-${q.key}`);
       wrap.appendChild(input);
@@ -203,7 +200,7 @@ const qqGroup = "123456789";
     fields.appendChild(wrap);
   });
 
-  // ===== 复制 =====
+  // ===== 复制功能 =====
   const copyTargets = {
     qq: document.getElementById("qq-value"),
     email: document.getElementById("email-value"),
@@ -222,7 +219,7 @@ const qqGroup = "123456789";
     });
   });
 
-  // ===== 生成反馈文本 =====
+  // ===== 生成反馈文本（已修改标题） =====
   const buildFeedback = () => {
     const rows = questions.map((q) => {
       let ans = "-";
@@ -235,7 +232,8 @@ const qqGroup = "123456789";
       }
       return `${qLabel(q)}\n${ans}`;
     });
-    const title = isZh ? `【${game.name} 意见反馈】` : `[${game.enName || game.name} Feedback]`;
+    // 修改为固定的【游戏意见反馈】
+    const title = isZh ? `【游戏意见反馈】` : `[Game Feedback]`;
     return `${title}\n\n` + rows.join("\n\n");
   };
 
@@ -249,14 +247,15 @@ const qqGroup = "123456789";
     } catch { btn.textContent = "Ctrl+C"; }
   });
 
+  // ===== 发送邮件（已修改主题） =====
   document.getElementById("mail-feedback").addEventListener("click", () => {
-    const subject = encodeURIComponent(isZh ? `[意见反馈] ${game.name}` : `[Feedback] ${game.enName || game.name}`);
+    const subject = encodeURIComponent(isZh ? `【游戏意见反馈】` : `[Game Feedback]`);
     const body = encodeURIComponent(buildFeedback());
     window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
   });
 </script>
 
-<!-- 注意这里改成了 is:global，让动态生成的 DOM 也能应用样式 -->
+<!-- 注意：样式必须是 is:global，否则动态生成的表单元素没样式 -->
 <style is:global>
   body {
     margin: 0;
@@ -381,14 +380,13 @@ const qqGroup = "123456789";
   .q { display: flex; flex-direction: column; gap: 8px; width: 100%; }
   .q-label { font-size: 13.5px; font-weight: 600; color: #334155; line-height: 1.5; display: block; }
   
-  /* 彻底修改输入框布局与外观 */
   input[type="text"], textarea {
     width: 100%; box-sizing: border-box;
     padding: 11px 13px; border-radius: 10px;
     border: 1px solid #e2e8f0; background: #fff;
     font-family: inherit; font-size: 13.5px; color: #0f172a;
     line-height: 1.55; transition: border-color 0.15s, box-shadow 0.15s;
-    display: block; /* 强制独占一行 */
+    display: block;
   }
   textarea { resize: vertical; min-height: 80px; }
   input[type="text"]:focus, textarea:focus {
