@@ -1,5 +1,5 @@
 ---
-const email = "feedback@yourgame.com";
+const email = "bluewindgame@outlook.com";
 const discordInvite = "https://discord.gg/your-invite";
 const qqGroup = "123456789";
 ---
@@ -66,8 +66,21 @@ const qqGroup = "123456789";
     <section class="block">
       <div class="block-head">
         <h2 data-i18n="ideaTitle">意见反馈</h2>
-        <p data-i18n="ideaDesc">花一分钟回答几个问题，帮我们把游戏做得更好。</p>
       </div>
+      
+      <!-- 新增的警告提示框 -->
+      <div class="alert">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <div>
+          <strong data-i18n="ideaWarningTitle">请注意：本问卷无直接提交按钮。</strong>
+          <p data-i18n="ideaDesc">填写完成后，请点击下方「复制反馈内容」或「通过邮件发送」，发送至我们的邮箱才能接收到。</p>
+        </div>
+      </div>
+
       <div id="survey-fields" class="survey"></div>
       <div class="survey-actions">
         <button type="button" id="copy-feedback" class="btn-primary" data-i18n="copyFeedback">复制反馈内容</button>
@@ -90,7 +103,9 @@ const qqGroup = "123456789";
       bugStep2: "写下问题发生前的操作步骤，越具体越好",
       bugStep3: "附上日志文件或截图（如有）",
       bugStep4: "发送到下方邮箱，标题注明 [BUG] + 版本号",
-      ideaTitle: "意见反馈", ideaDesc: "花一分钟回答几个问题，帮我们把游戏做得更好。",
+      ideaTitle: "意见反馈", 
+      ideaWarningTitle: "请注意：本问卷无直接提交按钮。",
+      ideaDesc: "填写完成后，请点击下方「复制反馈内容」或「通过邮件发送」，发送至我们的邮箱才能接收到。",
       ideaHint: "复制后可以粘贴到任意邮件客户端，发送给上方邮箱。",
       copy: "复制", copied: "已复制", copyFeedback: "复制反馈内容", mailFeedback: "通过邮件发送",
     },
@@ -103,7 +118,9 @@ const qqGroup = "123456789";
       bugStep2: "Write down the steps that led to the issue, as specifically as possible",
       bugStep3: "Attach a log file or screenshot if possible",
       bugStep4: "Email the address below with [BUG] + version in the subject",
-      ideaTitle: "Feedback", ideaDesc: "Take a minute to answer a few questions and help us improve the game.",
+      ideaTitle: "Feedback", 
+      ideaWarningTitle: "Please note: No direct submit button.",
+      ideaDesc: "After filling out, click 'Copy feedback' or 'Send by email' below and send it to our email so we can receive it.",
       ideaHint: "Copy the result and paste it into any email client, then send it to the address above.",
       copy: "Copy", copied: "Copied", copyFeedback: "Copy feedback", mailFeedback: "Send by email",
     }
@@ -219,7 +236,7 @@ const qqGroup = "123456789";
     });
   });
 
-  // ===== 生成反馈文本（已修改标题） =====
+  // ===== 生成反馈文本 =====
   const buildFeedback = () => {
     const rows = questions.map((q) => {
       let ans = "-";
@@ -232,7 +249,6 @@ const qqGroup = "123456789";
       }
       return `${qLabel(q)}\n${ans}`;
     });
-    // 修改为固定的【游戏意见反馈】
     const title = isZh ? `【游戏意见反馈】` : `[Game Feedback]`;
     return `${title}\n\n` + rows.join("\n\n");
   };
@@ -247,7 +263,7 @@ const qqGroup = "123456789";
     } catch { btn.textContent = "Ctrl+C"; }
   });
 
-  // ===== 发送邮件（已修改主题） =====
+  // ===== 发送邮件 =====
   document.getElementById("mail-feedback").addEventListener("click", () => {
     const subject = encodeURIComponent(isZh ? `【游戏意见反馈】` : `[Game Feedback]`);
     const body = encodeURIComponent(buildFeedback());
@@ -255,7 +271,6 @@ const qqGroup = "123456789";
   });
 </script>
 
-<!-- 注意：样式必须是 is:global，否则动态生成的表单元素没样式 -->
 <style is:global>
   body {
     margin: 0;
@@ -322,6 +337,37 @@ const qqGroup = "123456789";
   .block-head { margin-bottom: 18px; }
   .block-head h2 { font-size: 17px; font-weight: 700; margin: 0 0 6px; }
   .block-head p { margin: 0; font-size: 13px; color: #64748b; line-height: 1.55; }
+
+  /* 警告框样式 */
+  .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    color: #92400e;
+  }
+  .alert svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .alert strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .alert p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #b45309;
+  }
 
   /* Channels */
   .channels { display: flex; flex-direction: column; gap: 10px; }
